@@ -1,0 +1,19 @@
+sudo: required
+
+language: python
+
+services:
+  - docker
+
+install:
+  - echo "install nothing!"
+
+script:
+  - echo "no tests!"
+
+after_success:
+  - docker --version
+  - docker build -t py-imagemagic .
+  - docker tag py-imagemagic $DOCKER_USERNAME/py-imagemagic
+  - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+  - docker push $DOCKER_USERNAME/py-imagemagic:latest
